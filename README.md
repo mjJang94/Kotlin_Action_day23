@@ -17,8 +17,8 @@
 int strLen(String s){
   return s.length();
 }
-</pre>
 </code>
+</pre>
 
 이 함수에 null이 들어가게 되면 무조건 NullPointer가 발생한다. 함수에 대해 s가 null인지에 대한 검사는 이 함수를 사용하는 의도에 따라 달라진다.   
 그렇다면 코틀린으로 다시 보자. 코틀린에서 이런 함수를 작성할 때 가장 먼저 답을 알아야 할 질문은 이 함수가 과연 널을 인자로 받을 수 있는가이다.    
@@ -26,8 +26,8 @@ int strLen(String s){
 <pre>
 <code>
 fun strLen(s: String) = s.length
-</pre>
 </code>
+</pre>
 s에 널인 인자를 넘기는 것이 금지되며 혹시 넘기더라도 컴파일 할 때 애초에 막혀버린다.
 strLen함수에서 파라미터 s의 타입은 String인데 코틀린에서 이 표현은 s는 항상 무조건 String의 인스턴스여야 한다는 뜻이다. 그러므로 컴파일러가 널이되는 값을 거부하는 것이다.   
 이런 타입을 가지게 되면 s의 값이 널이 아니라는것에 대한 보증이 된다.   
@@ -36,6 +36,7 @@ strLen함수에서 파라미터 s의 타입은 String인데 코틀린에서 이 
 <pre>
 <code>
 fun strLenSafe(s: String) = ...
+</code>
 </pre>
 
 하지만 알아둬야 할것은 널이 될 수 있는 타입이라면 그에 대해 수행할 수 있는 연산도 제한된다.   
@@ -45,8 +46,8 @@ fun strLenSafe(s: String) = ...
 <code>
 fun strLenSafe(s:String?) = s.length()
 ERROR: only safe...
-</pre>
 </code>
+</pre>
 
 또는 널이 될 수 있는 값을 널이 될 수 없는 타입의 변수에 대입할 수 없다.
 
@@ -55,6 +56,7 @@ ERROR: only safe...
 val x: String? = null
 val y: String = x
 ERROR: Type mismatch...
+</code>
 </pre>
 
 또는 널이 될 수 있는 타입의 값을 널이 될 수 없는 타입의 파라미터를 받는 함수에 전달할 수 없다.
@@ -63,9 +65,8 @@ ERROR: Type mismatch...
 <code>
 strLen(x)
 ERROR: Type mismatch...
+</code>
 </pre>
-</code>
-</code>
 
 그럼 도대체 널을 허용하는 타입의 값은 어디에 쓰일까?   
 가장 중요한 일은 바로 null과 비교하는 것이다. 일단 null과 비교하고 나면 컴파일러는 그 사실을 기억하고 null이 아님이 확실한 영역에서는 해당 값을 널이 될 수 없는 타입의 값처럼 사용할 수 있다.
@@ -74,5 +75,5 @@ ERROR: Type mismatch...
 <code>
 fun strLenSafe(s: String?): Int =
   if(s != null) s.length else 0
-</pre>
 </code>
+</pre>
